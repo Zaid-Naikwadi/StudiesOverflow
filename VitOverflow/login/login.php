@@ -1,10 +1,30 @@
 <?php
 session_start();
+if (isset($_COOKIE['email_id']) && isset($_COOKIE['password']) && isset($_COOKIE['session']))
+{
+  header("Location:../home/home.php");
+}
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js">
+  function vali()
+  {
+    var pas=document.getElementById("upassword").value;
+         
+    var encryptedAES = CryptoJS.AES.encrypt(pass, "My Secret Passphrase");
+    document.getElementById("upassword").value=encryptedAES;
+
+
+      
+    return true;
+   
+  }
+</script>
+
 <title>VIT Overflow</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -27,7 +47,7 @@ session_destroy();
     
     
     <div class="dropdown" style="float:right;">
-      <a href="../index/index.html">Sign Up</a>
+      <a href="../index/index.php">Sign Up</a>
 
 
 </div>
@@ -62,11 +82,12 @@ session_destroy();
   </nav>
   
   <article>
-    <form name="myform" action="login_action.php" method="post">
+    <form name="myform" action="login_action.php" onsubmit="return vali()" method="post">
         
     <label>Email</label><input type="email" name="u_email"  placeholder="Eg. Abc@xyz.com" name="email" required><br>
       
-      <label>Password</label><input type="Password" name="u_password" minlength="6" required><br>
+      <label>Password</label><input type="Password" id="upassword" name="u_password" minlength="6" required><br>
+      <input type="checkbox" name="remember_me" value="1">Remember me<br>
       
   
   <input type="Submit" value="Login">
