@@ -25,7 +25,6 @@ alert("User Already Exists, please use another Email id");
 window.location.href = "index.html";
 </script>
 <?php
-
 }
 else
 {
