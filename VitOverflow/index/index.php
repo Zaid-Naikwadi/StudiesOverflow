@@ -1,9 +1,18 @@
+
+<?php
+
+if (isset($_COOKIE['email_id']) && isset($_COOKIE['password']) && isset($_COOKIE['session']))
+{
+  header("Location:../home/home.php");
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 
 
-	<script> 
+	<script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/rollups/aes.js"> 
 		
 	function vali()
 	{
@@ -11,6 +20,11 @@
 		var conpas=document.forms["myform"]["confirmp"].value;
 		if(pas==conpas)
 		{
+          var pass=document.getElementById("upassword").value;
+          var encryptedAES = CryptoJS.AES.encrypt(pass, "My Secret Passphrase");
+          document.getElementById("upassword").value=encryptedAES;
+
+
 			
         	return true;
 		}
@@ -72,12 +86,13 @@
         <label>Display Name</label><input type="text" name="u_name" placeholder="Eg. Abc123" required><br>
     <label>Email</label><input type="email" name="u_email"  placeholder="Eg. Abc@xyz.com" required><br>
     	
-    	<label>Password</label><input name="u_password" type="password" minlength="6" pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$" placeholder="Password Must contain at least 1 Special Character,1 Uppercase,1 Number" oninvalid="setCustomValidity('Password Must contain at least 1 Special Character,1 Uppercase,1 Number')" oninput="setCustomValidity('')" required><br>
+    	<label>Password</label><input id="upassword" name="u_password" type="password" minlength="6" pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\S+$).{6,}$" placeholder="Password Must contain at least 1 Special Character,1 Uppercase,1 Number" oninvalid="setCustomValidity('Password Must contain at least 1 Special Character,1 Uppercase,1 Number')" oninput="setCustomValidity('')" 
+      maxlength="30" required><br>
 
-    	<label>Confirm Password</label><input name="confirmp" type="password" minlength="5" placeholder="Confirm Password" required><br>
+    	<label>Confirm Password</label><input name="confirmp" type="password" minlength="5" placeholder="Confirm Password" maxlength="30" required><br>
     		<label>Department</label><select id="department" name="u_department" required>
 
-    <option value="Comnputer">Computer</option>
+    <option value="Computer">Computer</option>
     <option value="IT">IT</option>
     <option value="ENTC">ENTC</option>
   </select>
