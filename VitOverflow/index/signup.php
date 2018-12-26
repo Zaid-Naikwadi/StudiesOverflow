@@ -30,15 +30,15 @@ window.location.href = "index.html";
 else
 {
 
-
+$pass=md5($u_password);
 $sql = "INSERT INTO user_db (user_name, email, password, department, user_type)
-VALUES ('$u_name', '$u_email', '$u_password', '$u_department', '1')";
+VALUES ('$u_name', '$u_email', '$pass', '$u_department', '1')";
 
 if ($conn->query($sql) === TRUE) {
     ?>
 	<script type="text/javascript">
 	alert("You Have successfully registered,you can use your credentials for Login");
-	window.location.href = "../login/login.html";
+	window.location.href = "../login/login.php";
 	</script>
 	<?php
   	exit();
