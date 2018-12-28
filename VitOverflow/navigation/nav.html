@@ -1,0 +1,202 @@
+<link rel="stylesheet" type="text/css" href="../navigation/nav.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<style>
+       
+        #noti_Container {
+            position:relative;
+        }
+       
+        /* A CIRCLE LIKE BUTTON IN THE TOP MENU. 
+        #noti_Button {
+            width:22px;
+            height:22px;
+            line-height:22px;
+            border-radius:50%;
+            -moz-border-radius:50%; 
+            -webkit-border-radius:50%;
+            background:#FFF;
+            margin:-3px 10px 0 10px;
+            cursor:pointer;
+        }*/
+
+        /* THE POPULAR RED NOTIFICATIONS COUNTER. */
+        #noti_Counter {
+            display:block;
+            position:absolute;
+            background:#E1141E;
+            color:#FFF;
+            font-size:12px;
+            font-weight:normal;
+            padding:1px 3px;
+            margin:10px 0 0 55px;
+            border-radius:2px;
+            -moz-border-radius:2px; 
+            -webkit-border-radius:2px;
+            z-index:1;
+        }
+        
+        /* THE NOTIFICAIONS WINDOW. THIS REMAINS HIDDEN WHEN THE PAGE LOADS. */
+        #notifications {
+            display:none;
+            width:430px;
+            position:absolute;
+            top:45px;
+            left:-355px;
+            background:#FFF;
+            border:solid 1px rgba(100, 100, 100, .20);
+            -webkit-box-shadow:0 3px 8px rgba(0, 0, 0, .20);
+            
+        }
+        /* AN ARROW LIKE STRUCTURE JUST OVER THE NOTIFICATIONS WINDOW */
+        #notifications:before {         
+            content: '';
+            display:block;
+            width:0;
+            height:0;
+            color:transparent;
+            border:10px solid #CCC;
+            border-color:transparent transparent #FFF;
+            margin-top:-20px;
+            margin-left:390px;
+
+        }
+        
+        h3 {
+            display:block;
+            color:#333; 
+            background:#D82112;
+            font-weight:bold;
+            font-size:13px;
+            color: white;    
+            padding:8px;
+            text-align: center;
+            margin:0;
+            border-bottom:solid 1px rgba(100, 100, 100, .30);
+        }
+        
+        .seeAll {
+            background:#D82112;
+            padding:8px;
+            font-size:12px;
+            font-weight:bold;
+            border-top:solid 1px rgba(100, 100, 100, .30);
+            text-align:center;
+        }
+        .seeAll a {
+            color:#3b5998;
+        }
+        .seeAll a:hover {
+            background:#FFFFFF;
+            color:#3b5998;
+            text-decoration:underline;
+        }
+    </style>
+
+
+<ul class="topnav">
+    <li><a id="IDhome" href="../home/home.php">Home</a></li>
+    <li><a id="IDseequestions" href="../seequestions/see1.php">My Subjects</a></li>
+    <li><a id="IDmyaskedquestions" href="../displayuserquestions/displayuserquestions.php">My asked questions</a></li>
+    <li class="right"><a href="../delcookies/delcookies.php">Log Out&nbsp&nbsp<i class="fa fa-sign-out"></i></a></li>
+
+    <li id="noti_Container" class="right">
+        <div id="noti_Counter"></div>   <!--SHOW NOTIFICATIONS COUNT.-->
+                
+        <!--A CIRCLE LIKE BUTTON TO DISPLAY NOTIFICATION DROPDOWN.-->
+        <!--<div id="noti_Button"></div>    -->
+        <a id="noti_Button"><i class="fa fa-bell" style="font-size:20px; color: white"></i></a>
+
+        <!--THE NOTIFICAIONS DROPDOWN BOX.-->
+        <div id="notifications">
+            <h3>Notifications</h3>
+            <div style="height:300px;">
+            	<div class="w3-panel w3-yellow w3-display-container">
+  					<span onclick="this.parentElement.style.display='none'" class="w3-button w3-yellow w3-small w3-display-right">x</span>
+  					<a id="notificationLabel"></a>
+				</div>
+  			</div>
+            <div class="seeAll"><a class = "exception" href="#">See All</a></div>
+        </div>
+    </li>
+ </ul>
+
+ <script>
+    X = document.getElementById("notificationLabel").onclick = change;
+
+    function change(){
+        location.href='../displayuserquestions/displayuserquestions.php';
+    }
+    $(document).ready(function () {
+        /*var count;
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                count = this.responseText;
+                alert(count);
+            }
+        };
+        xmlhttp.open("GET", "getnotificationcount.php", true);
+        xmlhttp.send();*/
+        $.get("getnotificationcount.php", function(data){
+        var result = $.parseJSON(data);
+        $('#noti_Counter').text(result[0]);
+        $("#notificationLabel").text(result[1]);
+    });
+
+        
+
+       /* var count;
+        $.ajax({
+        type: "GET",
+        url: "getnotificationcount.php",
+        data: count,
+        cache: false,
+        success: function(data){
+        $("#noti_Counter").text(data);
+        alert("success");
+     }
+    });*/
+        
+        
+        //sleep(5000);
+        // ANIMATEDLY DISPLAY THE NOTIFICATION COUNTER.
+        $('#noti_Counter')
+            .css({ opacity: 0 })
+           // .text(count)      // ADD DYNAMIC VALUE (YOU CAN EXTRACT DATA FROM DATABASE OR XML).
+            .css({ top: '-10px' })
+            .animate({ top: '-2px', opacity: 1 }, 500);
+
+        $('#noti_Button').click(function () {
+            // TOGGLE (SHOW OR HIDE) NOTIFICATION WINDOW.
+            $('#notifications').fadeToggle('fast', 'linear', function () {
+                //if ($('#notifications').is(':hidden')) {
+                 //   $('#noti_Button').css('background-color', '#2E467C');
+                //}
+                // CHANGE BACKGROUND COLOR OF THE BUTTON.
+                //else $('#noti_Button').css('background-color', '#FFF');
+            });
+
+            $('#noti_Counter').fadeOut('slow');     // HIDE THE COUNTER.
+
+            return false;
+        });
+
+        // HIDE NOTIFICATIONS WHEN CLICKED ANYWHERE ON THE PAGE.
+        $(document).click(function () {
+            $('#notifications').hide();
+
+            // CHECK IF NOTIFICATION COUNTER IS HIDDEN.
+            if ($('#noti_Counter').is(':hidden')) {
+                // CHANGE BACKGROUND COLOR OF THE BUTTON.
+             //   $('#noti_Button').css('background-color', '#2E467C');
+            }
+        });
+
+        $('#notifications').click(function () {
+            return false;       // DO NOTHING WHEN CONTAINER IS CLICKED.
+        });
+    });
+</script>
